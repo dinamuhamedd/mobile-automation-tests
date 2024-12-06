@@ -1,0 +1,9 @@
+pm.test("Response code is 201", function () {
+    pm.response.to.have.status(201);  
+});
+
+pm.test("Response body contains the correct name and email", function () {
+    const response = pm.response.json();
+    pm.expect(response.name).to.eql("John Doe");
+    pm.expect(response.email).to.eql("johndoe@example.com");
+});
