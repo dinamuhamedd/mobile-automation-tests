@@ -1,9 +1,29 @@
-pm.test("Response code is 201", function () {
-    pm.response.to.have.status(201);  
-});
+const axios = require('axios');
 
-pm.test("Response body contains the correct name and email", function () {
-    const response = pm.response.json();
-    pm.expect(response.name).to.eql("John Doe");
-    pm.expect(response.email).to.eql("johndoe@example.com");
-});
+async function testCreateUser() {
+    const url = 'https://your-api-endpoint.com/users'; 
+    const data = {
+        name: "John Doe",
+        email: "johndoe@example.com"
+    };
+
+    try {
+        const response = await axios.post(url, data);
+
+        if (response.status === 201) {
+            console.log('Test Passed: Status code is 201');
+        } else {
+            console.log('Test Failed: Unexpected status code:', response.status);
+        }
+
+        if (response.data.name === 'John Doe' && response.data.email === 'johndoe@example.com') {
+            console.log('Test Passed: Correct name and email in the response body');
+        } else {
+            console.log('Test Failed: Name or email mismatch in the response body');
+        }
+    } catch (error) {
+        console.error('Test Failed: Error occurred during the API request', error);
+    }
+}
+
+testCreateUser();
